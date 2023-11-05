@@ -1,29 +1,25 @@
-name: Deploy to GitHub Pages
+name: Update Leaderboard
 
 on:
   push:
     branches:
-      - main  # Adjust this based on your branch setup
+      - main
 
 jobs:
-  deploy:
+  update_leaderboard:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set Up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
+      - name: Run updateLeaderboard.js
+        run: node updateLeaderboard.js
 
-    - name: Install Dependencies and Build
-      run: |
-        npm install  # Replace with your build commands
-
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.SECRET_1 }}
-        publish_dir: ./dist  # Adjust based on your build output
+      - name: Commit and push updated leaderboard
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
+          git add leaderboard.json
+          git commit -m "Update leaderboard"
+          git push
