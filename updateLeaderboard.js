@@ -1,5 +1,14 @@
 const fs = require('fs');
 
+let leaderboardData;
+try {
+  const fileContent = fs.readFileSync('leaderboard.json', 'utf8');
+  leaderboardData = JSON.parse(fileContent);
+} catch (error) {
+  // Handle the case where the file doesn't exist or is not valid JSON
+  leaderboardData = [];
+}
+
 // Read data from GitHub Actions event payload
 const eventData = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'));
 const nickname = eventData.nickname;
