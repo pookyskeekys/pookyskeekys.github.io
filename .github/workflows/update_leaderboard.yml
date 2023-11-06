@@ -10,16 +10,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Run updateLeaderboard.js
-        run: node updateLeaderboard.js
+      - name: Set Up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
 
-      - name: Commit and push updated leaderboard
+      - name: Install Dependencies
         run: |
-          git config user.email "actions@github.com"
-          git config user.name "GitHub Actions"
-          git add leaderboard.json
-          git commit -m "Update leaderboard"
-          git push
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Run Python Script
+        run: python .github/workflows/update_leaderboard.py
+        env:
+          NICKNAME: ${{ secrets.NICKNAME }}
+          SCORE: ${{ secrets.SCORE }}
+          SECRET_1: ${{ secrets.SECRET_1 }}
