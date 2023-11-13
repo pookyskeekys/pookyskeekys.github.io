@@ -1,59 +1,48 @@
-window.addEventListener("load", init);
+document.addEventListener("DOMContentLoaded", function () {
+  const pre = document.createElement("pre");
+  document.body.appendChild(pre);
 
-function init() {
-    let rot = 0;
-
-    const renderer = new THREE.WebGLRenderer({
-        canvas: document.getElementById("canvas"),
-        alpha: true
-    });
-
-    const scene = new THREE.Scene();
-
-    scene.fog = new THREE.Fog(0xaaaaaa, 50, 2000);
-
-    const camera = new THREE.PerspectiveCamera(70, 1000);
-
-    const geometry = new THREE.Geometry();
-
-    for (let i = 0; i < 10000; i++) {
-        const star = new THREE.Vector3();
-        star.x = THREE.Math.randFloatSpread(2000);
-        star.y = THREE.Math.randFloatSpread(2000);
-        star.z = THREE.Math.randFloatSpread(2000);
-
-        geometry.vertices.push(star)
+  let x = 1760,
+    z = 0,
+    y = 0;
+  setInterval(() => {
+    z += 0.07;
+    y += 0.03;
+    const a = [...new Array(x)].map((a, r) =>
+      r % 80 === 79 ? "\n" : " "
+    );
+    const r = new Array(x).fill(0),
+      t = Math.cos(z),
+      e = Math.sin(z),
+      n = Math.cos(y),
+      o = Math.sin(y);
+    for (let s = 0; s < 6.28; s += 0.07) {
+      const c = Math.cos(s),
+        h = Math.sin(s);
+      for (let s = 0; s < 6.28; s += 0.02) {
+        const v = Math.sin(s),
+          M = Math.cos(s),
+          i = c + 2,
+          l = 1 / (v * i * e + h * t + 5),
+          p = v * i * t - h * e,
+          d = (0 | (40 + 30 * l * (M * i * n - p * o))),
+          m = (0 | (12 + 15 * l * (M * i * o + p * n))),
+          f = (0 | (8 * ((h * e - v * c * t) * n - v * c * e - h * t - M * c * o))),
+          y = d + 80 * m;
+        m < 22 &&
+          m >= 0 &&
+          d >= 0 &&
+          d < 79 &&
+          l > r[y] &&
+          ((r[y] = l), (a[y] = ".,-~:;=!*#$@"[f > 0 ? f : 0]));
+      }
     }
+    pre.innerHTML = a.join("");
+  }, 50); /* JS by @housamz */
 
-    const material = new THREE.PointsMaterial({
-        color: 0xffffff
-    });
-    const starField = new THREE.Points(geometry, material);
-    scene.add(starField);
+  // Inspired by https://www.a1k0n.net/2011/07/20/donut-math.html
 
-    function render() {
-        rot += 0.1;
-        const radian = (rot * Math.PI) / 180;
-        camera.position.x = 1000 * Math.sin(radian);
-        camera.position.z = 1000 * Math.cos(radian);
-        camera.lookAt(new THREE.Vector3(0, 0, 0));
-
-        renderer.render(scene, camera);
-
-        requestAnimationFrame(render);
-    }
-    render();
-
-    window.addEventListener("resize", onResize);
-
-    function onResize() {
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-        renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.setSize(width, height);
-
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
-    }
-    onResize();
-}
+  // credits
+  const funs = new Funs("light");
+  funs.signature();
+});
