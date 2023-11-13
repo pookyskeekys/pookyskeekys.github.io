@@ -1,16 +1,136 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>leaderboards</title>
-  <link rel="stylesheet" href="./style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arkanoid</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap');
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        body {
+            background-color: black;
+            color: white;
+            font-family: 'Pixelify Sans', sans-serif;
+            margin: 20px;
+            min-height: 100vh;
+        }
+        .box {
+            border: 0px solid white;
+            padding: 50px;
+            text-align: center;
+            font-size: 18px;
+            font-family: 'Pixelify Sans', sans-serif;
+            display: inline-block;
+            vertical-align: top;
+        }
+        pre {
+            margin: 0;
+            text-align: center;
+        }
+        .links {
+            margin-top: 20px;
+        }
+        a {
+            color: white;
+            text-decoration: none;
+            padding: 0 10px;
+        }
+        .credits-overlay {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 600px;
+            height: 80%;
+            max-height: 600px;
+            background-color: black;
+            color: white;
+            font-family: 'Pixelify Sans', sans-serif;
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .credits-overlay pre {
+            text-align: left;
+            white-space: pre-wrap;
+        }
+        .credits-overlay button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: white;
+            color: black;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-<!-- partial:index.partial.html -->
-<canvas id="canvas"></canvas>
-<!-- partial -->
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r118/three.min.js'></script><script  src="./script.js"></script>
+    <div class="container">
+        <div class="box">
+            <pre>
+   ▄▄▄       ██▀███   ██ ▄█▀▄▄▄       ███▄    █  ▒█████   ██▓▓█████▄ 
+  ▒████▄    ▓██ ▒ ██▒ ██▄█▒▒████▄     ██ ▀█   █ ▒██▒  ██▒▓██▒▒██▀ ██▌
+  ▒██  ▀█▄  ▓██ ░▄█ ▒▓███▄░▒██  ▀█▄  ▓██  ▀█ ██▒▒██░  ██▒▒██▒░██   █▌
+  ░██▄▄▄▄██ ▒██▀▀█▄  ▓██ █▄░██▄▄▄▄██ ▓██▒  ▐▌██▒▒██   ██░░██░░▓█▄   ▌
+   ▓█   ▓██▒░██▓ ▒██▒▒██▒ █▄▓█   ▓██▒▒██░   ▓██░░ ████▓▒░░██░░▒████▓ 
+   ▒▒   ▓▒█░░ ▒▓ ░▒▓░▒ ▒▒ ▓▒▒▒   ▓▒█░░ ▒░   ▒ ▒ ░ ▒░▒░▒░ ░▓   ▒▒▓  ▒ 
+    ▒   ▒▒ ░  ░▒ ░ ▒░░ ░▒ ▒░ ▒   ▒▒ ░░ ░░   ░ ▒░  ░ ▒ ▒░  ▒ ░ ░ ▒  ▒ 
+    ░   ▒     ░░   ░ ░ ░░ ░  ░   ▒      ░   ░ ░ ░ ░ ░ ▒   ▒ ░ ░ ░  ░ 
+        ░  ░   ░     ░  ░        ░  ░         ░     ░ ░   ░     ░    
+                                                            ░      
+            </pre>
+            <div class="links">
+                <a href="https://github.com/pookyskeekys/Arkanoid_o/releases/download/22222222/Release2.zip" target="_blank">DOWNLOAD</a>
+                <a href="https://github.com/pookyskeekys/Arkanoid_o" target="_blank">SOURCE CODE</a>
+                <a href="javascript:void(0);" onclick="showCredits()">CREDITS</a>
+            </div>
+        </div>
+        <div class="box">
+            <pre id="donutPre"></pre>
+        </div>
+    </div>
+    
+    <div class="credits-overlay" id="creditsOverlay">
+        <pre>
+Original Developers:
+Taito - The visionary creators of the classic Arkanoid game that inspired this project.
 
+Designers:
+kira Fujita - For the original design concepts that laid the foundation for Arkanoid.
+Hiroshi Tsujino - Contributing to the visual appeal and creativity of the game.
+
+Lead Developer:
+keekys - efforts in combining, rewriting, and adding new lines of code brought this game to life.
+
+Open Source Contributions:
+jarreed0 - For the source code that formed the basis of this project.
+ochanoaji - Providing valuable assistance and support during the development process.
+
+Library:
+SDL2 - A crucial component that empowered the game development process.
+        </pre>
+        <button onclick="hideCredits()">Close</button>
+    </div>
+
+    <script>
+        function showCredits() {
+            document.getElementById("creditsOverlay").style.display = "block";
+            document.querySelector(".box").style.display = "none";
+        }
+
+        function hideCredits() {
+            document.getElementById("creditsOverlay").style.display = "none";
+            document.querySelector(".box").style.display = "block";
+        }
+    </script>
+
+    <script src="script.js"></script>
 </body>
 </html>
